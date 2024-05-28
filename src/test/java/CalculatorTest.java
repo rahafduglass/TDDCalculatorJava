@@ -95,6 +95,9 @@ public class CalculatorTest {
         Calculator calculator= new Calculator();
         assertEquals(-3,calculator.divideTwo(9,-3),.001);
     }
+    //
+    //
+    // PHASE2: testing pushing operators and numbers into both stack and queue according to the shunting yard algorithm
     @Test
     public void pushOpenBracketInStackTest(){
         Calculator calculator= new Calculator();
@@ -207,6 +210,11 @@ public class CalculatorTest {
         calculator.queue.clear();
 
     }
+    //
+    //
+    // PHASE3: testing readExpression method
+    //
+    //
     @Test
     public void readFullExpressionTest(){
         Calculator calculator= new Calculator();
@@ -232,6 +240,11 @@ public class CalculatorTest {
         assertEquals(1.0,calculator.queue.getLast());
 
     }
+    //
+    //
+    // PHASE 4: testing emptyTheStackIntoQueue method
+    //
+    //
     @Test
     public void emptyTheStackIntoQueueTest(){
         Calculator calculator= new Calculator();
@@ -244,6 +257,11 @@ public class CalculatorTest {
         assertEquals(-3.0,calculator.queue.getFirst());
 
     }
+    //
+    //
+    // PHASE 5: testing emptyQueueIntoStack method
+    //
+    //
     @Test
     public void emptyQueueIntoStackTest(){
         Calculator calculator= new Calculator();
@@ -252,7 +270,7 @@ public class CalculatorTest {
         calculator.emptyQueueIntoStack();
 
         assertEquals(0,calculator.queue.size());
-        assertEquals(2.0, (double)calculator.stack.peek(),.001);
+        assertEquals(-6.0, (double)calculator.stack.peek(),.001);
     }
 
 

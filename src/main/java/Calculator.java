@@ -83,8 +83,9 @@ public class Calculator {
         while (!queue.isEmpty()) {
             if (queue.getFirst() instanceof Double) {
                 stack.push(queue.poll());
-            } else {
-                if (stack.size() != 1) {
+
+            } else if((char)queue.getFirst() =='*'||(char)queue.getFirst() =='/'||(char)queue.getFirst() =='+'||(char)queue.getFirst() =='-'){
+
                     double element2 = (double) stack.pop();
                     double element1 = (double) stack.pop();
 
@@ -92,20 +93,30 @@ public class Calculator {
                         case '+':
                             stack.push(addTwo(element1, element2));
                             queue.poll();
+                            break;
                         case '-':
                             stack.push(subtractTwo(element1, element2));
                             queue.poll();
+                            break;
                         case '*':
                             stack.push(multiplyTwo(element1, element2));
                             queue.poll();
+                            break;
                         case '/':
                             stack.push(divideTwo(element1, element2));
                             queue.poll();
+                            break;
                     }
                 }
 
-            }
+
         }
 
+    }
+    public double calculate(String expression){
+        readExpression(expression);
+        emptyStackIntoQueue();
+        emptyQueueIntoStack();
+        return (double)stack.peek();
     }
 }
