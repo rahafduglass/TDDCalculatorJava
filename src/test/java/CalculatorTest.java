@@ -113,6 +113,18 @@ public class CalculatorTest {
         assertEquals('/',(char)calculator.stack.peek());
     }
     @Test
+    public void pushDivisionAfterDvisionAndStar(){
+        Calculator calculator= new Calculator();
+        calculator.readExpression("*/");
+        assertEquals('*',calculator.queue.getLast());
+        assertEquals('/',calculator.stack.peek());
+        calculator.stack.clear();
+        calculator.queue.clear();
+        calculator.readExpression("//");
+        assertEquals('/',calculator.queue.getLast());
+        assertEquals('/',calculator.stack.peek());
+    }
+    @Test
     public void pushPlusAndMinusAfterOpenBracket(){
         Calculator calculator= new Calculator();
         calculator.readExpression("(+");
@@ -146,6 +158,7 @@ public class CalculatorTest {
         assertEquals(calculator.queue.getLast(),1.0); // making sure it is added to queue
 
     }
+
     @Test
     public void pushClosedBracketTest(){ // the KING haha
         Calculator calculator= new Calculator();

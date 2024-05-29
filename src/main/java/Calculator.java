@@ -32,13 +32,13 @@ public class Calculator {
 
             // place operators
 
-            if (expression.charAt(i) == '/' || expression.charAt(i) == '*' || expression.charAt(i) == '(') {
+            if (  expression.charAt(i) == '(') {
                 stack.push(expression.charAt(i));
-            } else if (expression.charAt(i) == '+') {
+            } else if (expression.charAt(i) == '+'||expression.charAt(i) == '/'||expression.charAt(i) == '*') {
                 while (!stack.isEmpty() && ((char) stack.peek() == '*' || (char) stack.peek() == '/'))
                     queue.addLast(stack.pop());
                 stack.push(expression.charAt(i));
-            } else if (expression.charAt(i) == '-') { // is sign of number or operator??
+            } else if (expression.charAt(i) == '-') {
                 if (i == 0 || expression.charAt(i - 1) == '+' || expression.charAt(i - 1) == '-' || expression.charAt(i - 1) == '*' || expression.charAt(i - 1) == '/' || expression.charAt(i - 1) == '(') {// at beginning
                     i++;
                     number = "-";
@@ -84,39 +84,40 @@ public class Calculator {
             if (queue.getFirst() instanceof Double) {
                 stack.push(queue.poll());
 
-            } else if((char)queue.getFirst() =='*'||(char)queue.getFirst() =='/'||(char)queue.getFirst() =='+'||(char)queue.getFirst() =='-'){
+            } else if ((char) queue.getFirst() == '*' || (char) queue.getFirst() == '/' || (char) queue.getFirst() == '+' || (char) queue.getFirst() == '-') {
 
-                    double element2 = (double) stack.pop();
-                    double element1 = (double) stack.pop();
+                double element2 = (double) stack.pop();
+                double element1 = (double) stack.pop();
 
-                    switch ((char) queue.getFirst()) {
-                        case '+':
-                            stack.push(addTwo(element1, element2));
-                            queue.poll();
-                            break;
-                        case '-':
-                            stack.push(subtractTwo(element1, element2));
-                            queue.poll();
-                            break;
-                        case '*':
-                            stack.push(multiplyTwo(element1, element2));
-                            queue.poll();
-                            break;
-                        case '/':
-                            stack.push(divideTwo(element1, element2));
-                            queue.poll();
-                            break;
-                    }
+                switch ((char) queue.getFirst()) {
+                    case '+':
+                        stack.push(addTwo(element1, element2));
+                        queue.poll();
+                        break;
+                    case '-':
+                        stack.push(subtractTwo(element1, element2));
+                        queue.poll();
+                        break;
+                    case '*':
+                        stack.push(multiplyTwo(element1, element2));
+                        queue.poll();
+                        break;
+                    case '/':
+                        stack.push(divideTwo(element1, element2));
+                        queue.poll();
+                        break;
                 }
+            }
 
 
         }
 
     }
-    public double calculate(String expression){
+
+    public double calculate(String expression) {
         readExpression(expression);
         emptyStackIntoQueue();
         emptyQueueIntoStack();
-        return (double)stack.peek();
+        return (double) stack.peek();
     }
 }
