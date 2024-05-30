@@ -73,6 +73,7 @@ public class CalculatorTest {
         Calculator calculator= new Calculator();
         assertEquals(-40,calculator.multiplyTwo(-8,5),.001);
         assertEquals(-45,calculator.multiplyTwo(9,-5),.001);
+        assertEquals(0, calculator.multiplyTwo(0,-3), .001);
     }
     @Test
     public void divideTwoPositivesTest(){

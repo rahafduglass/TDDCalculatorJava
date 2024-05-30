@@ -27,26 +27,19 @@ public class Calculator {
             // place numbers
 
             String number = "";
-            i = getI(expression, i, number);
-
+            i = pushNumbersIntoQueue(expression, i, number);
 
             // place operators
 
-            if (  expression.charAt(i) == '(') {
+            if (expression.charAt(i) == '(') {
                 stack.push(expression.charAt(i));
-            } else if (expression.charAt(i) == '+'||expression.charAt(i) == '/'||expression.charAt(i) == '*') {
-                while (!stack.isEmpty() && ((char) stack.peek() == '*' || (char) stack.peek() == '/'))
-                    queue.addLast(stack.pop());
-                stack.push(expression.charAt(i));
+            } else if (expression.charAt(i) == '+' || expression.charAt(i) == '/' || expression.charAt(i) == '*') {
+                providePrecedence(expression, i);
             } else if (expression.charAt(i) == '-') {
                 if (i == 0 || expression.charAt(i - 1) == '+' || expression.charAt(i - 1) == '-' || expression.charAt(i - 1) == '*' || expression.charAt(i - 1) == '/' || expression.charAt(i - 1) == '(') {// at beginning
-                    i++;
-                    number = "-";
-                    i = getI(expression, i, number);
+                    i = readNegativeNumberIntoQueue(expression, i);
                 } else {
-                    while (!stack.isEmpty() && ((char) stack.peek() == '*' || (char) stack.peek() == '/'))
-                        queue.addLast(stack.pop());
-                    stack.push(expression.charAt(i));
+                    providePrecedence(expression, i);
                 }
             } else if (expression.charAt(i) == ')') {
                 while ((char) stack.peek() != '(') {
@@ -59,7 +52,21 @@ public class Calculator {
         }
     }
 
-    private int getI(String expression, int i, String number) {
+    private int readNegativeNumberIntoQueue(String expression, int i) {
+        String number;
+        i++;
+        number = "-";
+        i = pushNumbersIntoQueue(expression, i, number);
+        return i;
+    }
+
+    private void providePrecedence(String expression, int i) {
+        while (!stack.isEmpty() && ((char) stack.peek() == '*' || (char) stack.peek() == '/'))
+            queue.addLast(stack.pop());
+        stack.push(expression.charAt(i));
+    }
+
+    private int pushNumbersIntoQueue(String expression, int i, String number) {
         while (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.') {
             number += expression.charAt(i);
             if (expression.length() != i + 1 && expression.charAt(i + 1) != '*' && expression.charAt(i + 1) != '/' && expression.charAt(i + 1) != '+' && expression.charAt(i + 1) != '-' && expression.charAt(i + 1) != '(' && expression.charAt(i + 1) != ')')
@@ -67,7 +74,6 @@ public class Calculator {
             else {
                 double numberDouble = Double.parseDouble(number);
                 queue.addLast(numberDouble);
-                number = "";
                 break;
             }
         }
@@ -118,6 +124,9 @@ public class Calculator {
         readExpression(expression);
         emptyStackIntoQueue();
         emptyQueueIntoStack();
-        return (double) stack.peek();
+        if ((double) stack.peek() == 0)
+            return 0;
+        else
+            return (double) stack.peek();
     }
 }
